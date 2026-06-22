@@ -20,3 +20,10 @@ if you want to add new package then after installing run this to update requirem
 ```bash
 pip freeze > requirements.txt
 ```
+
+# How to start backend
+
+```bash
+python app.py
+```
+
