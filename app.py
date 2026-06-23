@@ -1,8 +1,11 @@
 from flask import Flask, request
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
+
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Change this to a random secret key
 jwt = JWTManager(app)
 

@@ -10,7 +10,7 @@ api = Api()
 
 class HelloWorld(Resource):
     def get(self):
-        return {"message": "Get request received"}
+        return {"message": "Hello, greetings from the backend!"}
     def post(self):
         data = request.get_json()  # Get JSON data from the request body
         print(data)
