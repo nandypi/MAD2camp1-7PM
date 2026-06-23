@@ -1,7 +1,10 @@
 from flask import Flask, request
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Change this to a random secret key
+jwt = JWTManager(app)
 
 # connect to database
 from models import db, User
@@ -11,6 +14,22 @@ db.init_app(app)
 # connect to api
 from apis import api
 api.init_app(app)
+
+
+# @app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE'])
+# def hello_world():
+#     data = request.get_json()  # Get JSON data from the request body
+#     if request.method == 'GET':
+#         print("GET request received")
+#     elif request.method == 'POST':
+#         print("POST request received")
+#     elif request.method == 'PUT':
+#         print("PUT request received")
+#     elif request.method == 'DELETE':
+#         print("DELETE request received")
+#     # return render_template('index.html') # this is what we were doing in mad1 project
+#     return {"message": f"Hello, {data.get('name', 'World')}!"} # this is what we are doing in mad2 project
+
 
 
 if __name__ == '__main__':
