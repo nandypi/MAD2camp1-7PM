@@ -27,3 +27,10 @@ pip freeze > requirements.txt
 python app.py
 ```
 
+# How to start frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
