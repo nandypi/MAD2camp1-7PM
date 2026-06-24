@@ -6,9 +6,14 @@
 
     <button @click="greetUser()">Call Backend</button>
   </div>
+  <br>
+  <RouterLink to="/">Back to Home</RouterLink>
+
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
+
 async function greetUser() {
   let res = await fetch('http://127.0.0.1:5000/hello')
   const data = await res.json()
