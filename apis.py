@@ -62,9 +62,9 @@ class ItemAPI(Resource):
             item = Item.query.get(item_id)
             if not item:
                 return {"message": f"Item not found with ID {item_id}"}, 404
-            return {"message": f"Item with ID {item_id} retrieved successfully", "data": item.to_dict()}
+            return {"message": f"Item with ID {item_id} retrieved successfully", "item": item.to_dict()}
         items = [item.to_dict() for item in Item.query.all()]
-        return {"message": "All items retrieved successfully", "data": items}
+        return {"message": "All items retrieved successfully", "items": items}
     
     @jwt_required()
     def post(self, item_id=None):
@@ -79,7 +79,7 @@ class ItemAPI(Resource):
         item = Item(name=data['name'], description=data.get('description'), image_url=data.get('image_url'))
         db.session.add(item)
         db.session.commit()
-        return {"message": "Successfully created item", "data": data}
+        return {"message": "Successfully created item", "item": data}
     
     @jwt_required()
     def put(self, item_id=None):
@@ -98,7 +98,7 @@ class ItemAPI(Resource):
             if hasattr(item, key):
                 setattr(item, key, value)
         db.session.commit()
-        return {"message": f"Successfully updated item with ID {item_id}", "data": data}
+        return {"message": f"Successfully updated item with ID {item_id}", "item": data}
     
     @jwt_required()
     def delete(self, item_id=None):

@@ -36,11 +36,12 @@
 </template>
 
 <script setup>
+import router from '@/router'
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 
 const email = ref('')
-const password = ref('')
+const password = ref('password')
 
 const message = ref('Enter details to Submit')
 const messageType = ref('info')
@@ -65,7 +66,16 @@ async function LoginUser() {
 
   if (res.ok) {
     messageType.value = 'success'
+    localStorage.setItem('user', JSON.stringify(data.user))
     localStorage.setItem('token', data.access_token)
+    message.value += ", Redirecting to dashboard..."
+    setTimeout(() => {
+      if (data.user.role == "admin") {
+        router.push('/admin')
+      } else (
+        router.push('/user')
+      )
+    }, 3000);
   } else {
     messageType.value = 'error'
   }
