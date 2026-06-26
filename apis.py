@@ -1,10 +1,12 @@
 from flask_restful import Resource, Api
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from flask_caching import Cache
 
 from models import db, User, Item
 
 api = Api()
+cache = Cache()
 
 # TESTING API
 
@@ -51,6 +53,20 @@ api.add_resource(Register, '/register')
 def IsAdmin():
     user = User.query.filter_by(email=get_jwt_identity()).first()
     return user.role == 'admin'
+
+# Stats API
+import time, timedelta
+
+class Stats(Resource):
+    # @jwt_required()
+    @cache.cached()  # Cache the response for 60 seconds
+    def get(self):
+        # db heavy querying...
+        time.sleep(10) # mimicing time taking apis
+        user_count = User.query.count()
+        data = {"user_count": user_count}
+        return {"message": "Successfully queried db for the data", "data": data}
+api.add_resource(Stats, '/stats')
 
 # ITEM API
 
