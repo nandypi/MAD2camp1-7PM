@@ -55,7 +55,7 @@ def IsAdmin():
     return user.role == 'admin'
 
 # Stats API
-import time, timedelta
+import time
 
 class Stats(Resource):
     # @jwt_required()
@@ -67,6 +67,16 @@ class Stats(Resource):
         data = {"user_count": user_count}
         return {"message": "Successfully queried db for the data", "data": data}
 api.add_resource(Stats, '/stats')
+
+class CSVExport(Resource):
+    # @jwt_required()
+    def get(self):
+        # if not isAdmin():
+        #     return {"message": "Admin privileges required to export data"}, 403
+        from celery_app import csv_export
+        csv_export.delay()  # Trigger the background task
+        return {"message": "CSV export task has been triggered. You will be notified once the export is complete."}
+api.add_resource(CSVExport, '/export_csv')
 
 # ITEM API
 
